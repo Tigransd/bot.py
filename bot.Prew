@@ -1,0 +1,27 @@
+import telebot
+import requests
+from telebot import types
+
+bot = telebot.TeleBot(token='6545409061:AAFFkjGqhhIZYk6TFFf8V0cfKpSAZJxSUwM')
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = types.InlineKeyboardMarkup()
+    button1 = types.InlineKeyboardButton('Разрабам на кофе', callback_data='pay')
+    button2 = types.InlineKeyboardButton('Hot Cripto', callback_data='bestcripto')
+    button3 = types.InlineKeyboardButton('Связь с админом', callback_data= 'help')
+    markup.add(button1, button2, button3)
+    bot.send_message(message.chat.id, "Привет,я первый бот Тиграна,Степы,Даниз",reply_markup=markup)
+# Обработка коллбэков от кнопок
+@bot.callback_query_handler(func=lambda call: True)
+def callback(call):
+    if call.message:
+        if call.data == 'pay':
+            bot.send_message(call.message.chat.id, 'Спасибо,что помогаете проекту развиваться')
+        elif call.data == 'bestcripto':
+            bot.send_message(call.message.chat.id, 'Скоро здесь появиться криптоволюты,но пока так')
+        else:
+            bot.send_message(call.message.chat.id, "Ваш запрос принят")
+
+
+bot.polling(none_stop=True)
+
